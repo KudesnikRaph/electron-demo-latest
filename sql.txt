@@ -69,3 +69,406 @@ VALUES
 (4, 5, 670000, '11-10-2023'),
 (1, 5, 35000, '4-15-2024'),
 (2, 5, 25000, '6-12-2024');
+
+-------------------------------------------------------2.0
+
+
+CREATE TABLE products_type (
+    id SERIAL PRIMARY KEY,
+    type                 VARCHAR(255),    
+    coeff_type_product   NUMERIC(5,2)
+);
+
+
+INSERT INTO products_type (type, coeff_type_product) VALUES
+  ('Древесно-плитные материалы', 1.50),
+  ('Декоративные панели',        3.50),
+  ('Плитка',                     5.25),
+  ('Фасадные материалы',         4.50),
+  ('Напольные покрытия',         2.17);
+
+
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    id_products_type INT REFERENCES products_type(id),  
+    name             VARCHAR(255),                              
+    article          VARCHAR(50),                              
+    min_cost         NUMERIC(10,2)                            
+);
+
+INSERT INTO products (id_products_type, name, article, min_cost) VALUES
+  (1, 'Фанера ФСФ 1800х1200х27 мм бежевая береза',                             '6549922', 5100.00),
+  (2, 'Мягкие панели прямоугольник велюр цвет оливковый 600х300х35 мм',         '7018556', 1880.00),
+  (4, 'Бетонная плитка Белый кирпич микс 30х7,3 см',                           '5028272', 2080.00),
+  (3, 'Плитка Мозаика 10x10 см цвет белый глянец',                              '8028248', 2500.00),
+  (5, 'Ламинат Дуб Античный серый 32 класс толщина 8 мм с фаской',              '9250282', 4050.00),
+  (2, 'Стеновая панель МДФ Флора 1440x500x10 мм',                              '7130981', 2100.56),
+  (4, 'Бетонная плитка Красный кирпич 20x6,5 см',                               '5029784', 2760.00),
+  (5, 'Ламинат Канди Дизайн 33 класс толщина 8 мм с фаской',                    '9658953', 3200.96),
+  (1, 'Плита ДСП 11 мм влагостойкая 594x1815 мм',                               '6026662',  497.69),
+  (5, 'Ламинат с натуральным шпоном Дуб Эксперт толщина 6 мм с фаской',          '9159043', 3750.00),
+  (3, 'Плитка настенная Формат 20x40 см матовая цвет мята',                      '8588376', 2500.00),
+  (1, 'Плита ДСП Кантри 16 мм 900x1200 мм',                                      '6758375', 1050.96),
+  (2, 'Стеновая панель МДФ Сосна Полярная 60x280x4мм цвет коричневый',           '7759324', 1700.00),
+  (4, 'Клинкерная плитка коричневая 29,8x29,8 см',                               '5118827',  860.00),
+  (3, 'Плитка настенная Цветок 60x120 см цвет зелено-голубой',                   '8559898', 2300.00),
+  (2, 'Пробковое настенное покрытие 600х300х3 мм белый',                         '7259474', 3300.00),
+  (3, 'Плитка настенная Нева 30x60 см цвет серый',                               '8115947', 1700.00),
+  (4, 'Гипсовая плитка настенная Дом на берегу кирпич белый 18,5х4,5 см',        '5033136',  499.00),
+  (5, 'Ламинат Дуб Северный белый 32 класс толщина 8 мм с фаской',               '9028048', 2550.00),
+  (1, 'Дерево волокнистая плита Дуб Винтаж 1200х620х3 мм светло-коричневый',     '6123459',  900.50);
+
+
+CREATE TABLE partners (
+    id             SERIAL      PRIMARY KEY,
+    type_partner   VARCHAR(10),    
+    name_partner   VARCHAR(255),   
+    director       VARCHAR(255),   
+    email          VARCHAR(255),    
+    phone          VARCHAR(30),   
+    legal_address  TEXT,    
+    inn            VARCHAR(20) UNIQUE, 
+    rating         SMALLINT    
+);
+
+INSERT INTO partners (
+    type_partner,
+    name_partner,
+    director,
+    email,
+    phone,
+    legal_address,
+    inn,
+    rating
+) VALUES
+  ('ЗАО', 'Стройдвор',               'Андреева Ангелина Николаевна',    'angelina77@kart.ru',         '492 452 22 82',
+   '143001, Московская область, город Одинцово, ул. Ленина, 21',          '9432455179',  5),
+  ('ЗАО', 'Самоделка',               'Мельников Максим Петрович',       'melnikov.maksim88@hm.ru',    '812 267 19 59',
+   '306230, Курская область, город Обоянь, ул. 1 Мая, 89',                '7803888520',  3),
+  ('ООО', 'Деревянные изделия',      'Лазарев Алексей Сергеевич',       'aleksejlazarev@al.ru',       '922 467 93 83',
+   '238340, Калининградская область, город Светлый, ул. Морская, 12',     '8430391035',  4),
+  ('ООО', 'Декор и отделка',         'Саншокова Мадина Муратовна',      'mmsanshokova@lss.ru',        '413 230 30 79',
+   '685000, Магаданская область, город Магадан, ул. Горького, 15',         '4318170454',  7),
+  ('ООО', 'Паркет',                  'Иванов Дмитрий Сергеевич',        'ivanov.dmitrij@mail.ru',     '921 851 21 22',
+   '606440, Нижегородская область, город Бор, ул. Свободы, 3',             '7687851800',  7),
+  ('ПАО', 'Дом и сад',               'Аникеева Екатерина Алексеевна',    'ekaterina.anikeeva@ml.ru',   '499 936 29 26',
+   '393760, Тамбовская область, город Мичуринск, ул. Красная, 50',         '6119144874',  7),
+  ('ОАО', 'Легкий шаг',              'Богданова Ксения Владимировна',   'bogdanova.kseniya@bkv.ru',   '495 445 61 41',
+   '307370, Курская область, город Рыльск, ул. Гагарина, 16',              '1122170258',  6),
+  ('ПАО', 'СтройМатериалы',          'Холодова Валерия Борисовна',      'holodova@education.ru',      '499 234 56 78',
+   '140300, Московская область, город Егорьевск, ул. Советская, 24',       '8355114917',  5),
+  ('ОАО', 'Мир отделки',             'Крылов Савелий Тимофеевич',       'stkrylov@mail.ru',           '908 713 51 88',
+   '344116, Ростовская область, город Ростов-на-Дону, ул. Артиллерийская, 4','3532367439',  8),
+  ('ОАО', 'Технологии комфорта',     'Белов Кирилл Александрович',      'kirill_belov@kir.ru',        '918 432 12 34',
+   '164500, Архангельская область, город Северодвинск, ул. Ломоносова, 29','2362431140',  4),
+  ('ПАО', 'Твой дом',                'Демидов Дмитрий Александрович',    'dademidov@ml.ru',            '919 698 75 43',
+   '354000, Краснодарский край, город Сочи, ул. Больничная, 11',           '4159215346', 10),
+  ('ЗАО', 'Новые краски',            'Алиев Дамир Игоревич',            'alievdamir@tk.ru',           '812 823 93 42',
+   '187556, Ленинградская область, город Тихвин, ул. Гоголя, 18',          '9032455179',  9),
+  ('ОАО', 'Политехник',              'Котов Михаил Михайлович',         'mmkotov56@educat.ru',        '495 895 71 77',
+   '143960, Московская область, город Реутов, ул. Новая, 55',              '3776671267',  5),
+  ('ОАО', 'СтройАрсенал',            'Семенов Дмитрий Максимович',      'semenov.dm@mail.ru',         '896 123 45 56',
+   '242611, Брянская область, город Фокино, ул. Фокино, 23',               '7447864518',  5),
+  ('ПАО', 'Декор и порядок',          'Болотов Артем Игоревич',          'artembolotov@ab.ru',         '950 234 12 12',
+   '309500, Белгородская область, город Старый Оскол, ул. Цветочная, 20',  '9037040523',  5),
+  ('ПАО', 'Умные решения',           'Воронова Анастасия Валерьевна',   'voronova_anastasiya@mail.ru','923 233 27 69',
+   '652050, Кемеровская область, город Юрга, ул. Мира, 42',                '6221520857',  3),
+  ('ЗАО', 'Натуральные покрытия',    'Горбунов Василий Петрович',       'vpgorbunov24@vvs.ru',        '902 688 28 96',
+   '188300, Ленинградская область, город Гатчина, пр. 25 Октября, 17',      '2262431140',  9),
+  ('ООО', 'СтройМастер',             'Смирнов Иван Андреевич',          'smirnov_ivan@kv.ru',         '917 234 75 55',
+   '184250, Мурманская область, город Кировск, пр. Ленина, 24',             '4155215346',  9),
+  ('ООО', 'Гранит',                  'Джумаев Ахмед Умарович',          'dzhumaev.ahmed@amail.ru',    '495 452 55 95',
+   '162390, Вологодская область, город Великий Устюг, ул. Железнодорожная, 36','3961234561', 5),
+  ('ЗАО', 'Строитель',               'Петров Николай Тимофеевич',       'petrov.nikolaj31@mail.ru',   '916 596 15 55',
+   '188910, Ленинградская область, город Приморск, ш. Приморское, 18',      '9600275878', 10);
+
+
+CREATE TABLE partners_products (
+    id SERIAL PRIMARY KEY,
+    partner_id  INT REFERENCES partners(id),
+    product_id  INT  REFERENCES products(id),
+    quantity    INT
+);
+
+INSERT INTO partners_products (partner_id, product_id, quantity) VALUES
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Стройдвор'),
+    (SELECT id FROM products WHERE name          = 'Плитка Мозаика 10x10 см цвет белый глянец'),
+    2000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Самоделка'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Дуб Античный серый 32 класс толщина 8 мм с фаской'),
+    3000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Деревянные изделия'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    1000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Декор и отделка'),
+    (SELECT id FROM products WHERE name          = 'Бетонная плитка Белый кирпич микс 30х7,3 см'),
+    9500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Паркет'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    2000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Дом и сад'),
+    (SELECT id FROM products WHERE name          = 'Гипсовая плитка настенная Дом на берегу кирпич белый 18,5х4,5 см'),
+    1100
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Легкий шаг'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП Кантри 16 мм 900x1200 мм'),
+    5000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройМатериалы'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    2500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Мир отделки'),
+    (SELECT id FROM products WHERE name          = 'Мягкие панели прямоугольник велюр цвет оливковый 600х300х35 мм'),
+    6000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Технологии комфорта'),
+    (SELECT id FROM products WHERE name          = 'Стеновая панель МДФ Флора 1440x500x10 мм'),
+    7000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Твой дом'),
+    (SELECT id FROM products WHERE name          = 'Плитка Мозаика 10x10 см цвет белый глянец'),
+    5000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Новые краски'),
+    (SELECT id FROM products WHERE name          = 'Плитка Мозаика 10x10 см цвет белый глянец'),
+    7500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Политехник'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    3000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройАрсенал'),
+    (SELECT id FROM products WHERE name          = 'Гипсовая плитка настенная Дом на берегу кирпич белый 18,5х4,5 см'),
+    500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Декор и порядок'),
+    (SELECT id FROM products WHERE name          = 'Пробковое настенное покрытие 600х300х3 мм белый'),
+    7000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Умные решения'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП 11 мм влагостойкая 594x1815 мм'),
+    4000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Натуральные покрытия'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    3500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройМастер'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    7900
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Гранит'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Цветок 60x120 см цвет зелено-голубой'),
+    9600
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Строитель'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Цветок 60x120 см цвет зелено-голубой'),
+    1200
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Стройдвор'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Формат 20x40 см матовая цвет мята'),
+    1500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Самоделка'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Канди Дизайн 33 класс толщина 8 мм с фаской'),
+    3000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Деревянные изделия'),
+    (SELECT id FROM products WHERE name          = 'Мягкие панели прямоугольник велюр цвет оливковый 600х300х35 мм'),
+    3010
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Декор и отделка'),
+    (SELECT id FROM products WHERE name          = 'Бетонная плитка Красный кирпич 20x6,5 см'),
+    3020
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Паркет'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Дуб Античный серый 32 класс толщина 8 мм с фаской'),
+    3050
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Дом и сад'),
+    (SELECT id FROM products WHERE name          = 'Клинкерная плитка коричневая 29,8x29,8 см'),
+    3040
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Легкий шаг'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Дуб Северный белый 32 класс толщина 8 мм с фаской'),
+    3050
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройМатериалы'),
+    (SELECT id FROM products WHERE name          = 'Плитка Мозаика 10x10 см цвет белый глянец'),
+    3060
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Мир отделки'),
+    (SELECT id FROM products WHERE name          = 'Гипсовая плитка настенная Дом на берегу кирпич белый 18,5х4,5 см'),
+    3070
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Технологии комфорта'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП 11 мм влагостойкая 594x1815 мм'),
+    5400
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Твой дом'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП Кантри 16 мм 900x1200 мм'),
+    5500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Новые краски'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Формат 20x40 см матовая цвет мята'),
+    5600
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Политехник'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП 11 мм влагостойкая 594x1815 мм'),
+    5700
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройАрсенал'),
+    (SELECT id FROM products WHERE name          = 'Клинкерная плитка коричневая 29,8x29,8 см'),
+    5800
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Декор и порядок'),
+    (SELECT id FROM products WHERE name          = 'Мягкие панели прямоугольник велюр цвет оливковый 600х300х35 мм'),
+    5900
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Умные решения'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП Кантри 16 мм 900x1200 мм'),
+    6000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Натуральные покрытия'),
+    (SELECT id FROM products WHERE name          = 'Стеновая панель МДФ Флора 1440x500x10 мм'),
+    6100
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройМастер'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП 11 мм влагостойкая 594x1815 мм'),
+    8000
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Гранит'),
+    (SELECT id FROM products WHERE name          = 'Бетонная плитка Белый кирпич микс 30х7,3 см'),
+    7060
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Строитель'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Нева 30x60 см цвет серый'),
+    6120
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Стройдвор'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Цветок 60x120 см цвет зелено-голубой'),
+    5180
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Самоделка'),
+    (SELECT id FROM products WHERE name          = 'Ламинат с натуральным шпоном Дуб Эксперт толщина 6 мм с фаской'),
+    4240
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Деревянные изделия'),
+    (SELECT id FROM products WHERE name          = 'Ламинат с натуральным шпоном Дуб Эксперт толщина 6 мм с фаской'),
+    3300
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Декор и отделка'),
+    (SELECT id FROM products WHERE name          = 'Ламинат с натуральным шпоном Дуб Эксперт толщина 6 мм с фаской'),
+    2360
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Паркет'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Канди Дизайн 33 класс толщина 8 мм с фаской'),
+    1420
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Дом и сад'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Формат 20x40 см матовая цвет мята'),
+    1500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Легкий шаг'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Дуб Античный серый 32 класс толщина 8 мм с фаской'),
+    1700
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройМатериалы'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП Кантри 16 мм 900x1200 мм'),
+    1900
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Мир отделки'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Цветок 60x120 см цвет зелено-голубой'),
+    2100
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Технологии комфорта'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП Кантри 16 мм 900x1200 мм'),
+    2300
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Твой дом'),
+    (SELECT id FROM products WHERE name          = 'Ламинат Канди Дизайн 33 класс толщина 8 мм с фаской'),
+    2500
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Новые краски'),
+    (SELECT id FROM products WHERE name          = 'Плитка настенная Цветок 60x120 см цвет зелено-голубой'),
+    2700
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Политехник'),
+    (SELECT id FROM products WHERE name          = 'Плита ДСП Кантри 16 мм 900x1200 мм'),
+    2900
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'СтройАрсенал'),
+    (SELECT id FROM products WHERE name          = 'Фанера ФСФ 1800х1200х27 мм бежевая береза'),
+    3100
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Декор и порядок'),
+    (SELECT id FROM products WHERE name          = 'Гипсовая плитка настенная Дом на берегу кирпич белый 18,5х4,5 см'),
+    3300
+  ),
+  (
+    (SELECT id FROM partners WHERE name_partner = 'Умные решения'),
+    (SELECT id FROM products WHERE name          = 'Дерево волокнистая плита Дуб Винтаж 1200х620х3 мм светло-коричневый'),
+    3500
+  );
